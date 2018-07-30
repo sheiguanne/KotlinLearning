@@ -1,0 +1,29 @@
+查询年龄是15且money最少的user的money数
+
+POST http://127.0.0.1:9200/te/user/_search
+{
+	"query":{
+		"term":{
+			"age":15
+		}
+	},
+	"aggs":{
+		"my_agg_name":{
+			"min":{
+				"field":"money"
+			}
+		}
+	}
+}
+
+注意，返回结果在"aggregations"里，不在"hits"里，"hits"里返回的结果对应"query"里的条件。
+以下是返回结果：
+{
+	...
+	"aggregations":{
+		"my_agg_name":{
+			"value":2000
+		}
+	}
+}
+

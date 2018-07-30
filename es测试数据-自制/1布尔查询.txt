@@ -1,0 +1,25 @@
+查询city不是nanjing的，且年龄是32或者15的user，且只显示username和city字段
+
+
+POST http://127.0.0.1:9200/te/user/_search
+{
+	"_source":["username","city"],
+	"query":{
+		"bool":{
+			"must":[
+				{
+					"terms":{
+						"age":[32,15]
+					}
+				}
+			],
+			"must_not":{
+				"term":{
+					"city":"nanjing"
+				}
+			}
+		}
+	}
+}
+
+

@@ -1,0 +1,52 @@
+首先建立映射
+PUT http://127.0.0.1:9200/te
+{
+	"mappings":{
+		"user":{
+			"properties":{
+				"id":{"type":"string"},
+				"username":{"type":"string"},
+				"money":{"type":"double"},
+				"age":{"type":"integer"},
+				"city":{"type":"string"},
+				"card":{"type":"nested"},
+				"book":{"type":"nested"}
+			}
+		},
+		"author":{
+			"properties":{
+				"id":{"type":"string"},
+				"aname":{"type":"string"}
+			}
+		},
+		"book":{
+			"properties":{
+				"id":{"type":"string"},
+				"userid":{"type":"string"},
+				"authorid":{"type":"string"},
+				"bookname":{"type":"string"}
+			}
+		}
+	}
+}
+
+
+
+
+
+在user.json所在目录下打开cmd，输入
+curl -XPOST "127.0.0.1:9200/te/user/_bulk?pretty" --data-binary @user.json
+即可向es中插入数据。
+
+
+浏览器中打开
+http://127.0.0.1:9200/_mapping
+可以看到名为"user"的type的结构。
+
+
+浏览器中打开
+http://127.0.0.1:9200/te/user/_search
+即可搜索。
+
+
+

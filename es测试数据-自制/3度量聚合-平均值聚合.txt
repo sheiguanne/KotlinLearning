@@ -1,0 +1,24 @@
+查询所有user的money的平均值
+
+POST http://127.0.0.1:9200/te/user/_search
+{
+	"aggs":{
+		"my_agg_name":{
+			"avg":{
+				"field":"money"
+			}
+		}
+	}
+}
+
+注意，返回结果在"aggregations"里，不在"hits"里。因为没有"query"，"hits"里返回所有的user。
+以下是返回结果：
+{
+	...
+	"aggregations":{
+		"my_agg_name":{
+			"value":3500
+		}
+	}
+}
+

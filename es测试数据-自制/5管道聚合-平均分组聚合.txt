@@ -1,0 +1,72 @@
+查询money范围为(-无穷,1000)、[1000, 3000)、[3000, +无穷)这3个区间各自的user的money的总和
+
+POST http://127.0.0.1:9200/te/user/_search
+{
+	"aggs":{
+		"my_agg_name":{
+			"range":{
+				"field":"money",
+				"ranges":[
+					{"to":1000},
+					{"from":1000,"to":3000},
+					{"from":3000}
+				]
+			},
+			"aggs":{
+				"my_agg_name_child":{
+					"sum":{"field":"money"}
+				}
+			}
+		},
+		"my_agg_name_2":{
+			"avg_bucket":{"buckets_path":"my_agg_name>my_agg_name_child"}
+		}
+	}
+}
+
+从返回结果看，
+my_agg_name是桶聚合("my_agg_name"下有"buckets")，
+my_agg_name_2是度量聚合("my_agg_name_2"下有"value")。
+以下是返回结果：
+{
+	...
+	"aggregations":{
+		"my_agg_name":{
+			"buckets":[
+				{
+					"key":"*-1000.0",
+					"to":1000,
+					"to_as_string":"1000.0",
+					"doc_count":0,
+					"my_agg_name_child":{
+						"value":0
+					}
+				},
+				{
+					"key":"1000.0-3000.0",
+					"from":1000,
+					"from_as_string":"1000.0",
+					"to":3000,
+					"to_as_string":"3000.0",
+					"doc_count":2,
+					"my_agg_name_child":{
+						"value":3000
+					}
+				},
+				{
+					"key":"3000.0-*",
+					"from":3000,
+					"from_as_string":"3000.0",
+					"doc_count":4,
+					"my_agg_name_child":{
+						"value":18000
+					}
+				}
+			]
+		},
+		"my_agg_name_2":{
+			"value":10500
+		}
+	}
+}
+

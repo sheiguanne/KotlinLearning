@@ -1,0 +1,12 @@
+{"index":{"_id":"1"}}
+{"username":"aoa","money":1000,"age":32,"city":"nanjing"}
+{"index":{"_id":"2"}}
+{"username":"bob","money":2000,"age":15,"city":"nanjing"}
+{"index":{"_id":"3"}}
+{"username":"coc","money":3000,"age":15,"city":"beijing"}
+{"index":{"_id":"4"}}
+{"username":"dod","money":4000,"age":15,"city":"beijing"}
+{"index":{"_id":"5"}}
+{"username":"eoe","money":5000,"age":15,"city":"shanghai"}
+{"index":{"_id":"6"}}
+{"username":"fof","money":6000,"age":15,"city":"shanghai"}

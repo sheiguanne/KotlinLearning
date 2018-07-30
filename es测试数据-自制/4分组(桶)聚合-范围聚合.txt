@@ -1,0 +1,50 @@
+查询money范围为(-无穷,1000)、[1000, 3000)、[3000, +无穷)这3个区间的user数
+
+POST http://127.0.0.1:9200/te/user/_search
+{
+	"aggs":{
+		"my_agg_name":{
+			"range":{
+				"field":"money",
+				"ranges":[
+					{"to":1000},
+					{"from":1000,"to":3000},
+					{"from":3000}
+				]
+			}
+		}
+	}
+}
+
+注意，返回结果在"aggregations"里，不在"hits"里。因为没有"query"，"hits"里返回所有的user。
+以下是返回结果：
+{
+	...
+	"aggregations":{
+		"my_agg_name":{
+			"buckets":[
+				{
+					"key":"*-1000.0",
+					"to":1000,
+					"to_as_string":"1000.0",
+					"doc_count":0
+				},
+				{
+					"key":"1000.0-3000.0",
+					"from":1000,
+					"from_as_string":"1000.0",
+					"to":3000,
+					"to_as_string":"3000.0",
+					"doc_count":2
+				},
+				{
+					"key":"3000.0-*",
+					"from":3000,
+					"from_as_string":"3000.0",
+					"doc_count":4
+				}
+			]
+		}
+	}
+}
+
